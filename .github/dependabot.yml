@@ -1,0 +1,30 @@
+# Dependabot configuration
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+ - package-ecosystem: 'npm'
+   directory: '/'
+   schedule:
+    interval: 'weekly'
+   open-pull-requests-limit: 5
+   labels:
+    - 'dependabot'
+   commit-message:
+    prefix: 'chore'
+   ignore:
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major', 'version-update:semver-minor']
+
+ - package-ecosystem: 'github-actions'
+   directory: '/'
+   schedule:
+    interval: 'weekly'
+   open-pull-requests-limit: 5
+   labels:
+    - 'dependabot'
+   commit-message:
+    prefix: 'chore'
+   ignore:
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major', 'version-update:semver-minor']

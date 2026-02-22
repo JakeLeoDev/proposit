@@ -1,0 +1,520 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+	/* Color definitions for light mode — blue-violet / soft-gray (hue 289) */
+	--color-background: oklch(98.5% 0.004 289);
+	--color-foreground: oklch(18% 0.02 289);
+	--color-card: oklch(99.2% 0.003 289);
+	--color-card-foreground: oklch(18% 0.02 289);
+	--color-popover: oklch(99.2% 0.003 289);
+	--color-popover-foreground: oklch(18% 0.02 289);
+	--color-primary: oklch(55% 0.2 289);
+	--color-primary-foreground: oklch(100% 0 0);
+	--color-secondary: oklch(95.5% 0.008 289);
+	--color-secondary-foreground: oklch(22% 0.025 289);
+	--color-muted: oklch(95% 0.008 289);
+	--color-muted-foreground: oklch(50% 0.02 289);
+	--color-accent: oklch(94% 0.02 289);
+	--color-accent-foreground: oklch(22% 0.025 289);
+	--color-destructive: oklch(65% 0.2 25);
+	--color-destructive-foreground: oklch(98% 0 0);
+	--color-border: oklch(91.5% 0.006 289);
+	--color-input: oklch(91.5% 0.006 289);
+	--color-ring: oklch(55% 0.2 289);
+
+	/* Success colors (green) */
+	--color-success: oklch(62% 0.16 148);
+	--color-success-foreground: oklch(98% 0 0);
+	--color-success-light: oklch(95% 0.04 148);
+	--color-success-light-foreground: oklch(30% 0.14 148);
+	--color-success-dark: oklch(48% 0.18 148);
+	--color-success-border: oklch(85% 0.07 148);
+
+	/* Error/Destructive colors (red) */
+	--color-error: oklch(65% 0.2 25);
+	--color-error-foreground: oklch(98% 0 0);
+	--color-error-light: oklch(95% 0.04 25);
+	--color-error-light-foreground: oklch(35% 0.18 25);
+	--color-error-dark: oklch(52% 0.22 25);
+	--color-error-border: oklch(88% 0.07 25);
+
+	/* Warning colors (amber) */
+	--color-warning: oklch(78% 0.14 75);
+	--color-warning-foreground: oklch(22% 0.1 75);
+	--color-warning-light: oklch(96% 0.04 75);
+	--color-warning-light-foreground: oklch(38% 0.14 75);
+	--color-warning-dark: oklch(62% 0.17 75);
+	--color-warning-border: oklch(90% 0.07 75);
+
+	/* Info colors (blue) */
+	--color-info: oklch(58% 0.16 240);
+	--color-info-foreground: oklch(98% 0 0);
+	--color-info-light: oklch(95% 0.04 240);
+	--color-info-light-foreground: oklch(30% 0.14 240);
+	--color-info-dark: oklch(48% 0.18 240);
+	--color-info-border: oklch(86% 0.07 240);
+
+	/* Status colors (magenta) */
+	--color-status: oklch(62% 0.16 330);
+	--color-status-foreground: oklch(98% 0 0);
+	--color-status-light: oklch(95% 0.04 330);
+	--color-status-light-foreground: oklch(35% 0.14 330);
+	--color-status-dark: oklch(48% 0.18 330);
+	--color-status-border: oklch(88% 0.07 330);
+
+	/* Neutral/Gray colors — subtle violet tint (hue 289) */
+	--color-neutral-50: oklch(98.5% 0.004 289);
+	--color-neutral-100: oklch(96% 0.005 289);
+	--color-neutral-200: oklch(91.5% 0.006 289);
+	--color-neutral-300: oklch(85% 0.008 289);
+	--color-neutral-400: oklch(70% 0.008 289);
+	--color-neutral-500: oklch(55% 0.008 289);
+	--color-neutral-600: oklch(45% 0.008 289);
+	--color-neutral-700: oklch(35% 0.008 289);
+	--color-neutral-800: oklch(25% 0.008 289);
+	--color-neutral-900: oklch(15% 0.008 289);
+
+	/* Border radius — moderately rounded */
+	--radius: 0.625rem;
+	--radius-lg: var(--radius);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-sm: calc(var(--radius) - 4px);
+
+	/* Container breakpoints from your original config */
+	--breakpoint-2xl: 87.5rem; /* 1400px */
+
+	/* Animation keyframes */
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
+
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
+	/* Animation definitions */
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* Container utility customization */
+@utility container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 2rem;
+	padding-right: 2rem;
+
+	@media (min-width: 87.5rem) {
+		max-width: 87.5rem;
+	}
+}
+
+@layer base {
+	:root {
+		color-scheme: light;
+	}
+
+	.dark {
+		color-scheme: dark;
+		--color-background: oklch(13% 0.02 289);
+		--color-foreground: oklch(97% 0.005 289);
+		--color-card: oklch(16% 0.018 289);
+		--color-card-foreground: oklch(97% 0.005 289);
+		--color-popover: oklch(16% 0.018 289);
+		--color-popover-foreground: oklch(97% 0.005 289);
+		--color-primary: oklch(60% 0.2 289);
+		--color-primary-foreground: oklch(100% 0 0);
+		--color-secondary: oklch(21% 0.015 289);
+		--color-secondary-foreground: oklch(97% 0.005 289);
+		--color-muted: oklch(21% 0.012 289);
+		--color-muted-foreground: oklch(65% 0.012 289);
+		--color-accent: oklch(23% 0.025 289);
+		--color-accent-foreground: oklch(97% 0.005 289);
+		--color-destructive: oklch(58% 0.2 25);
+		--color-destructive-foreground: oklch(98% 0 0);
+		--color-border: oklch(24% 0.015 289);
+		--color-input: oklch(24% 0.015 289);
+		--color-ring: oklch(65% 0.18 289);
+
+		/* Success colors (green) - dark mode */
+		--color-success: oklch(68% 0.15 148);
+		--color-success-foreground: oklch(98% 0 0);
+		--color-success-light: oklch(24% 0.07 148);
+		--color-success-light-foreground: oklch(72% 0.12 148);
+		--color-success-dark: oklch(52% 0.18 148);
+		--color-success-border: oklch(30% 0.09 148);
+
+		/* Error/Destructive colors (red) - dark mode */
+		--color-error: oklch(58% 0.2 25);
+		--color-error-foreground: oklch(98% 0 0);
+		--color-error-light: oklch(24% 0.09 25);
+		--color-error-light-foreground: oklch(72% 0.15 25);
+		--color-error-dark: oklch(48% 0.22 25);
+		--color-error-border: oklch(30% 0.11 25);
+
+		/* Warning colors (amber) - dark mode */
+		--color-warning: oklch(72% 0.14 75);
+		--color-warning-foreground: oklch(18% 0.08 75);
+		--color-warning-light: oklch(24% 0.07 75);
+		--color-warning-light-foreground: oklch(72% 0.12 75);
+		--color-warning-dark: oklch(58% 0.17 75);
+		--color-warning-border: oklch(30% 0.09 75);
+
+		/* Info colors (blue) - dark mode */
+		--color-info: oklch(65% 0.15 240);
+		--color-info-foreground: oklch(98% 0 0);
+		--color-info-light: oklch(24% 0.07 240);
+		--color-info-light-foreground: oklch(72% 0.12 240);
+		--color-info-dark: oklch(52% 0.18 240);
+		--color-info-border: oklch(30% 0.09 240);
+
+		/* Status colors (magenta) - dark mode */
+		--color-status: oklch(68% 0.15 330);
+		--color-status-foreground: oklch(98% 0 0);
+		--color-status-light: oklch(24% 0.07 330);
+		--color-status-light-foreground: oklch(72% 0.12 330);
+		--color-status-dark: oklch(52% 0.18 330);
+		--color-status-border: oklch(30% 0.09 330);
+
+		/* Neutral/Gray colors - dark mode — subtle violet tint (hue 289) */
+		--color-neutral-50: oklch(19% 0.008 289);
+		--color-neutral-100: oklch(24% 0.008 289);
+		--color-neutral-200: oklch(29% 0.008 289);
+		--color-neutral-300: oklch(35% 0.008 289);
+		--color-neutral-400: oklch(50% 0.008 289);
+		--color-neutral-500: oklch(65% 0.008 289);
+		--color-neutral-600: oklch(75% 0.008 289);
+		--color-neutral-700: oklch(85% 0.006 289);
+		--color-neutral-800: oklch(90% 0.005 289);
+		--color-neutral-900: oklch(95% 0.004 289);
+	}
+
+	* {
+		@apply border-border;
+		transition:
+			background-color 0.25s ease-out,
+			color 0.25s ease-out,
+			border-color 0.25s ease-out;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+		font-feature-settings:
+			'rlig' 1,
+			'calt' 1;
+		transition:
+			background-color 0.25s ease-out,
+			color 0.25s ease-out;
+	}
+
+	/* Nested list styles for Lexical editor */
+	/* Level 1: disc (default) */
+	[data-lexical-editor] ul {
+		list-style-type: disc;
+	}
+
+	[data-lexical-editor] ol {
+		list-style-type: decimal;
+	}
+
+	/* Level 2: circle for unordered, lower-alpha for ordered */
+	[data-lexical-editor] ul ul {
+		list-style-type: circle;
+	}
+
+	[data-lexical-editor] ol ol {
+		list-style-type: lower-alpha;
+	}
+
+	/* Level 3: square for unordered, lower-roman for ordered */
+	[data-lexical-editor] ul ul ul {
+		list-style-type: square;
+	}
+
+	[data-lexical-editor] ol ol ol {
+		list-style-type: lower-roman;
+	}
+
+	/* Level 4+: back to disc/decimal */
+	[data-lexical-editor] ul ul ul ul {
+		list-style-type: disc;
+	}
+
+	[data-lexical-editor] ol ol ol ol {
+		list-style-type: decimal;
+	}
+
+	/* Fix: List items that only contain nested lists should not show their own bullet */
+	/* When Lexical creates nested lists, it puts a <ul> inside an <li> */
+	/* The outer <li> should not show a bullet if it only contains a nested list */
+	[data-lexical-editor] li > ul:only-child,
+	[data-lexical-editor] li > ol:only-child {
+		margin-left: 0;
+		padding-left: 1.5rem;
+	}
+
+	/* Hide bullet for list items that contain only a nested list (no text content) */
+	/* Check if list item's only child is a ul/ol */
+	[data-lexical-editor] li:has(> ul:only-child),
+	[data-lexical-editor] li:has(> ol:only-child) {
+		list-style-type: none;
+	}
+
+	/* Ensure proper spacing for nested lists */
+	/* Remove bottom margin from nested lists to have consistent padding (top and bottom) */
+	[data-lexical-editor] ul ul,
+	[data-lexical-editor] ol ol,
+	[data-lexical-editor] ul ol,
+	[data-lexical-editor] ol ul {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem !important; /* Override mb-4 from theme */
+	}
+
+	/* Also ensure nested lists inside list items have consistent spacing */
+	[data-lexical-editor] li > ul,
+	[data-lexical-editor] li > ol {
+		margin-bottom: 0.25rem !important; /* Override mb-4 from theme */
+	}
+}
+
+/* Lexical Table Styles */
+[data-lexical-editor] table {
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+	margin-bottom: 1rem;
+}
+
+[data-lexical-editor] table td,
+[data-lexical-editor] table th {
+	position: relative;
+	vertical-align: top;
+	outline: none;
+}
+
+[data-lexical-editor] table td > p,
+[data-lexical-editor] table th > p {
+	margin-bottom: 0;
+}
+
+/* Table cell selection highlight */
+[data-lexical-editor] table td.lexical-cell-selected,
+[data-lexical-editor] table th.lexical-cell-selected {
+	background-color: oklch(55% 0.2 289 / 0.12);
+}
+
+/* Tab navigation styling in table */
+[data-lexical-editor] table td:focus-within,
+[data-lexical-editor] table th:focus-within {
+	outline: 2px solid oklch(55% 0.2 289 / 0.5);
+	outline-offset: -2px;
+}
+
+/* A4 Page Styles */
+.a4-page {
+	position: relative;
+	width: 210mm;
+	height: 297mm;
+	background: white;
+	box-sizing: border-box;
+	page-break-after: auto;
+	page-break-inside: avoid;
+	overflow: hidden;
+}
+
+.a4-page:not(:last-child) {
+	page-break-after: always;
+}
+
+/* ============================================================
+   PDF / PRINT STYLES
+   Single consolidated @media print block + auto-pagination
+   ============================================================ */
+
+/* Auto-paginated page wrapper — A4 with side padding only
+   Top/bottom spacing is handled by @page margins so every
+   physical page (including overflow pages) gets consistent spacing. */
+.auto-paginated-page {
+	position: relative;
+	width: 210mm;
+	background: white;
+	color: black;
+	box-sizing: border-box;
+	padding: 0 12mm;
+	page-break-inside: auto;
+	break-inside: auto;
+}
+
+.auto-paginated-page:not(:last-child) {
+	page-break-after: always;
+	break-after: page;
+}
+
+/* Auto-paginated content — flows across pages */
+.auto-paginated-content {
+	position: relative;
+	width: 100%;
+}
+
+/* Prevent headings from breaking across pages */
+.auto-paginated-content h1,
+.auto-paginated-content h2,
+.auto-paginated-content h3,
+.auto-paginated-content h4,
+.auto-paginated-content h5,
+.auto-paginated-content h6 {
+	page-break-after: avoid;
+	break-after: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+/* Keep paragraphs, list items, decorators together */
+.auto-paginated-content p,
+.auto-paginated-content li,
+.auto-paginated-content div[data-lexical-decorator],
+.auto-paginated-content pre,
+.auto-paginated-content blockquote {
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+/* Lists can break across pages */
+.auto-paginated-content ul,
+.auto-paginated-content ol {
+	page-break-inside: auto;
+	break-inside: auto;
+}
+
+/* Tables, figures, images — keep together */
+.auto-paginated-content table,
+.auto-paginated-content figure,
+.auto-paginated-content img {
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+/* Headings stay with following content */
+.auto-paginated-content h1 + *,
+.auto-paginated-content h2 + *,
+.auto-paginated-content h3 + * {
+	page-break-before: avoid;
+	break-before: avoid;
+}
+
+@media print {
+	/* ---- Page setup ----
+     @page margins apply to EVERY physical page, including overflow
+     pages from auto-paginated content. This ensures consistent
+     top/bottom spacing even when content flows across pages.
+     Side margins are handled by the page containers (12mm). */
+	@page {
+		size: A4;
+		margin: 15mm 0 20mm 0;
+	}
+
+	/* ---- Force light mode ---- */
+	html {
+		color-scheme: light !important;
+	}
+
+	html.dark {
+		color-scheme: light !important;
+	}
+
+	body {
+		margin: 0;
+		background: white !important;
+		color: black !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	/* ---- A4 page resets ----
+     In print, @page handles top/bottom margins.
+     Containers only provide side padding.
+     Height adapts to printable area (297 - 15 - 20 = 262mm). */
+	.a4-page {
+		box-shadow: none !important;
+		filter: none !important;
+		padding: 0 12mm !important;
+		height: auto !important;
+		min-height: calc(297mm - 35mm) !important;
+	}
+
+	.page {
+		page-break-after: always;
+		box-shadow: none !important;
+		filter: none !important;
+		background: white !important;
+		position: relative;
+		width: 210mm;
+		min-height: calc(297mm - 35mm);
+		padding: 0 12mm;
+		box-sizing: border-box;
+	}
+
+	.page:last-child {
+		page-break-after: auto;
+	}
+
+	/* ---- Auto-pagination ---- */
+	.auto-paginated-content {
+		orphans: 3;
+		widows: 3;
+	}
+
+	.auto-paginated-content h1,
+	.auto-paginated-content h2,
+	.auto-paginated-content h3 {
+		orphans: 4;
+		widows: 4;
+	}
+
+	/* ---- Card backgrounds ---- */
+	.card,
+	[class*='Card'] {
+		background: white !important;
+		border: none !important;
+		box-shadow: none !important;
+	}
+
+	/* ---- Table styling in print ---- */
+	table,
+	table th,
+	table td {
+		border-color: #d1d5db !important;
+	}
+
+	/* ---- Product collection tables ---- */
+	.product-collection-block table thead {
+		display: table-header-group;
+	}
+
+	.product-collection-block table tfoot {
+		display: table-footer-group;
+	}
+
+	.product-collection-block table tr {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	/* ---- Hide UI elements ---- */
+	.print\\:hidden {
+		display: none !important;
+	}
+}
