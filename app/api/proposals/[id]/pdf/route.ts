@@ -1,8 +1,12 @@
-import puppeteer from 'puppeteer';
 import { NextResponse } from 'next/server';
 import { checkProposalAccess } from '@/lib/proposal-access-service';
 import { getUser } from '@/lib/auth';
+import { launchBrowser, resolveInternalAppUrl } from '@/lib/pdf/launch';
 import { createServiceClient } from '@/lib/supabase/server';
+
+// PDF rendering is slow. Claim up to 60s on Vercel Pro / Fluid Compute. Hobby
+// plan caps this at 10s, which is usually too short for a full proposal.
+export const maxDuration = 60;
 
 interface Params {
 	params: { id: string };
@@ -45,11 +49,12 @@ export async function GET(request: Request, { params }: Params) {
 
 	// Build the URL for puppeteer
 	const queryParams: string[] = [];
-	// Puppeteer must connect to localhost from within the container
-	// Use INTERNAL_APP_URL if set, otherwise default to localhost:3000
-	const configuredBase = process.env.INTERNAL_APP_URL || 'http://localhost:3000';
-	// Replace https with http for local development or when needed inside containers without TLS
-	const httpUrl = configuredBase.replace(/^https:/, 'http:');
+	const configuredBase = resolveInternalAppUrl();
+	// Only drop TLS when the target is actually localhost (dev / docker without
+	// TLS). Real public URLs — Vercel, custom domains — must keep https.
+	const parsedBase = new URL(configuredBase);
+	const isLocalhost = ['localhost', '127.0.0.1'].includes(parsedBase.hostname);
+	const httpUrl = isLocalhost ? configuredBase.replace(/^https:/, 'http:') : configuredBase;
 	let url = `${httpUrl}/${locale}/proposals/${id}/pdf`;
 	if (token) {
 		queryParams.push(`token=${token}`);
@@ -61,18 +66,7 @@ export async function GET(request: Request, { params }: Params) {
 		url += `?${queryParams.join('&')}`;
 	}
 
-	const browser = await puppeteer.launch({
-		headless: true,
-		args: [
-			'--no-sandbox',
-			'--disable-setuid-sandbox',
-			'--disable-dev-shm-usage',
-			'--disable-gpu',
-			'--no-zygote',
-			'--single-process',
-		],
-		executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-	});
+	const browser = await launchBrowser();
 	try {
 		const page = await browser.newPage();
 		// Force light mode so dark system themes don't affect the PDF

@@ -22,6 +22,8 @@
 		"type-check": "tsc --noEmit",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"db:start": "supabase start",
 		"db:stop": "supabase stop",
 		"db:push": "supabase db push",
@@ -112,6 +114,7 @@
 		"tailwindcss": "^4",
 		"tailwindcss-animate": "^1.0.7",
 		"tw-animate-css": "^1.3.6",
-		"typescript": "^5"
+		"typescript": "^5",
+		"vitest": "^4.1.4"
 	}
 }

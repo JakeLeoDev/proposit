@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
 	typescript: {
 		ignoreBuildErrors: true,
 	},
+	// Keep the PDF rendering deps out of the Next.js bundle. They resolve native
+	// binaries + platform-specific files at runtime, which the bundler cannot
+	// trace reliably and which would otherwise blow past Vercel's 50 MB limit.
+	serverExternalPackages: ['puppeteer', 'puppeteer-core', '@sparticuz/chromium'],
 	// Images are loaded from Supabase Storage, whose hostname depends on the
 	// self-hosted deployment (NEXT_PUBLIC_SUPABASE_URL). Because each installation
 	// uses a different host we allow all hostnames here. If you know your Supabase

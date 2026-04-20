@@ -74,6 +74,9 @@ Fill in the values in `.env.local`:
 | `SMTP_PASS`                     | SMTP password or API key                                        |
 | `SMTP_FROM`                     | Sender address, e.g. `"My App <hello@example.com>"`             |
 | `NEXT_PUBLIC_TENANT_MODE`       | `single` (default) or `multi` — see [Tenant Mode](#tenant-mode) |
+| `INTERNAL_APP_URL`              | Optional. URL Chromium uses for PDF export — see [Deployment](#deployment)  |
+
+See `.env.example` for the full list including optional variables.
 
 ### 4. Set up the database
 
@@ -163,6 +166,20 @@ Controlled by the `NEXT_PUBLIC_TENANT_MODE` environment variable.
 ## Deployment
 
 The app is a standard Next.js application and can be deployed to any platform that supports Node.js (Vercel, Railway, Fly.io, etc.).
+
+### PDF export — hosting notes
+
+The PDF export runs a headless Chromium in the same process as the app. The launcher auto-detects the environment:
+
+- **Node server / Docker / VPS / Railway / Fly.io** — uses the full `puppeteer` package with its bundled Chromium. Works out of the box.
+- **Vercel / AWS Lambda** — uses `puppeteer-core` + `@sparticuz/chromium`, a stripped Chromium build sized for serverless functions.
+
+On Vercel specifically:
+
+- The PDF route declares `maxDuration = 60`. The **Hobby plan caps function duration at 10 seconds**, which is usually too short to render a full proposal. Deploy on the Pro plan (or enable Fluid Compute) for reliable PDF export.
+- The function calls back into its own deployment to render the proposal page. `VERCEL_URL` is used automatically. If you run the app behind a custom proxy or in a private network, set `INTERNAL_APP_URL` to the URL Chromium should reach.
+
+If you prefer to run Chromium in a separate service (high volume, stricter isolation), see the discussion in [issue #7](https://github.com/JakeLeoDev/proposit/issues/7).
 
 ## Internationalisation
 

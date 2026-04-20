@@ -104,6 +104,7 @@ Schema changes are managed via the Supabase CLI. All migrations live in `supabas
 - **AI features**: Anthropic models, org-level API keys stored in the database, configurable system prompts, tool-calling functions defined in `lib/ai/`.
 - **Proposal image tracking**: Images uploaded in the Lexical editor are tracked in a `proposal_images` table. On save, orphaned images are deleted from Supabase Storage. On proposal deletion, all associated files are cleaned up. See `context/proposal-images.md`.
 - **MCP server**: External MCP clients can access AI tools via `POST /api/mcp` with bearer token authentication. Tokens are SHA-256 hashed (not encrypted) and stored in the `api_tokens` table. The MCP route uses `createServiceClient()` scoped by the token's `organisation_id`. See `context/mcp-server.md`.
+- **PDF export**: `app/api/proposals/[id]/pdf/route.ts` renders by navigating a headless Chromium to the app's own `/[locale]/proposals/[id]/pdf` page — same Lexical/Tailwind pipeline as the on-screen preview, so PDF = preview byte-for-byte. The browser launcher lives in `lib/pdf/launch.ts` and auto-detects the runtime: full `puppeteer` on Node servers / VPS / Docker, `puppeteer-core` + `@sparticuz/chromium` on Vercel / Lambda. The route sets `maxDuration = 60` (Vercel Pro / Fluid Compute; Hobby caps at 10s and is too short). The render target URL resolves to `INTERNAL_APP_URL` → `VERCEL_URL` → `NEXT_PUBLIC_APP_URL` → `localhost:3000`. Puppeteer deps are listed in `serverExternalPackages` in `next.config.ts` — do not import them from client bundles.
 
 ## Code Style
 
@@ -139,6 +140,7 @@ The `context/` folder contains reference documents that can be given to Claude a
 - `context/mcp-server.md` — MCP server endpoint, token auth, tool adapter pattern
 - `context/i18n.md` — i18n conventions, namespace reference, translation checklist
 - `context/error-handling.md` — user-friendly error mapping, `mapDatabaseError` utility, FK display names
+- `context/pdf-export-testing.md` — manual smoke-test checklist per PDF rendering tier
 
 ## Custom Commands
 
