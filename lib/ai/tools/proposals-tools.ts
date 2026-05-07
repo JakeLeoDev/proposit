@@ -160,7 +160,7 @@ export function createProposalsTools(context: ToolContext) {
 							company: input.company,
 							recipient: input.recipient,
 							preparator: userId, // Automatically set to the user making the request
-							content: JSON.stringify(proposalContent),
+							content: proposalContent,
 							expiry_date: expiryDate,
 							status: input.status || 'Draft',
 							proposal_number: proposalNumber,
@@ -235,12 +235,7 @@ export function createProposalsTools(context: ToolContext) {
 					const cleanUpdates: Partial<Proposal> = {};
 					Object.entries(updates).forEach(([key, value]) => {
 						if (value !== undefined) {
-							// Stringify content field (validation moved to client-side)
-							if (key === 'content') {
-								cleanUpdates[key as keyof Proposal] = JSON.stringify(value) as any;
-							} else {
-								cleanUpdates[key as keyof Proposal] = value as any;
-							}
+							cleanUpdates[key as keyof Proposal] = value as any;
 						}
 					});
 
